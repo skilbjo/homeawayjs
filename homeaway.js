@@ -13,14 +13,14 @@ async.series([
   , function(done) {
     $('span.totalCount').data('hitcount', function(totalListings) {
       $('#ols_more_filters').data('count', function(totalPaidListings) {
-        console.log('Today\'s date: ' + dt);
-        console.log('HomeAway total listings: ' + totalListings);
-        console.log('Homeaway paid listings: ' + totalPaidListings);
+        console.log(dt + '\t' + totalListings + '\t' + totalPaidListings);
+        // console.log('Homeaway total listings: ' + totalListings);
+        // console.log('Homeaway paid listings: ' + totalPaidListings);
         done();
       });
     });
   }
 ], function() {
-  console.log('Nice work!');
+  // console.log('Nice work!');
   $.close();
 });
