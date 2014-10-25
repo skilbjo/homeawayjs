@@ -6,7 +6,7 @@ Screenscraping Homeaways website, repeating that process as a cron job, and stor
 
 ## Installation
 
-`$ git clone github.com/skilbjo/homeawayjs.git`
+`$ git clone https://github.com/skilbjo/homeawayjs.git`
 
 `$ npm install`
 
