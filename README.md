@@ -10,7 +10,15 @@ Screenscraping Homeaways website, repeating that process as a cron job, and stor
 
 `$ npm install`
 
-`$ node homeaway.js` || `$ crontab crontab.txt`
+## Let's Begin!
+
+Start a onetime pull, with the output in the console
+
+`$ node homeaway.js`
+
+or, begin a cron job:
+
+`$ crontab crontab.txt`
 
 ## Stop the cron job
 
