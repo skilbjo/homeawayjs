@@ -18,11 +18,13 @@ async.series([
         fs.appendFile('results.csv'
           , S({Year: dt.getFullYear()
             , Month: dt.getMonth() + 1
+            , Day: dt.getDate()
             , TotalListings: totalListings
             , totalPaidListings: totalPaidListings
           }).toCSV().s + '\n'
           , function(err) { if (err) throw err; console.log(dt.getFullYear() + '\t' + 
             (dt.getMonth() + 1) + '\t' + 
+            dt.getDate() + '\t' +
             totalListings + '\t' + 
             totalPaidListings + '\n'); }
         );
