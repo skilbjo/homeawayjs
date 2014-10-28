@@ -18,9 +18,7 @@
     , "underscore": "1.7.0"
     , "jquerygo": "0.0.16"
     , "async": "0.9.0"
-    , "csv": "latest"
-    , "fast-csv": "latest"
-    , "string": "latest"
+    , "string": "2.2.0"
   },
   "jshintConfig": {
     "laxcomma": true

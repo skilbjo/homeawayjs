@@ -2,7 +2,9 @@
 
 ## Intro
 
-Screenscraping Homeaways website, repeating that process as a cron job, and storing that information for later analysis
+Problem: need to know Homeaway's property listings data, and store that for later analysis. Homeaway does not have a global API for that type of information. However, they do provide that number on their website.
+
+Solution: `homeaway.js`... Screenscraping Homeaways website, repeating that process as a cron job, and storing that information for later analysis
 
 ## Installation
 
