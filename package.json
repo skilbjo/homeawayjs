@@ -19,6 +19,7 @@
     , "jquerygo": "0.0.16"
     , "async": "0.9.0"
     , "string": "2.2.0"
+    , "cron": "1.0.5"
   },
   "jshintConfig": {
     "laxcomma": true
