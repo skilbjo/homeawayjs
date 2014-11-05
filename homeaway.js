@@ -1,42 +1,32 @@
-var 
-  $           = require('jquerygo')
+var
+  fs        = require('fs')
   , async     = require('async')
-  , _         = require('underscore')
-  , fs        = require('fs')
+  , jsdom     = require('jsdom')
   , S         = require('string')
   , cron      = require('cron').CronJob
-  , dt        = new Date();
+  , dt        = new Date()
+  , listings  = {};
 
-$.config = {
-  site: 'http://www.homeaway.com/'
-  , addJQuery: false };
+var getListings = function(callback) {
+  jsdom.env('http://www.homeaway.com/search', ['http://code.jquery.com/jquery-1.5.min.js'],
+    function (err, window) { var $ = window.jQuery;
+      listings.year = dt.getFullYear();
+      listings.month = dt.getMonth() + 1;
+      listings.day = dt.getDate();
+      listings.total = $('span.totalCount').data('hitcount');
+      listings.paid = $('#ols_more_filters').data('count');
+      callback(null, listings);
+    }
+  );
+};
 
-// new cron('* * * * *', function() {
+var saveCSV = function(record) {
+  fs.appendFile('results.csv', S(record).toCSV().s + '\n');
+};
+
 async.series([
-  $.go('visit', '/search')
-  , function(done) {
-    $('span.totalCount').data('hitcount', function(totalListings) {
-      $('#ols_more_filters').data('count', function(totalPaidListings) {
-        fs.appendFile('results.csv'
-          , S({Year: dt.getFullYear()
-            , Month: dt.getMonth() + 1
-            , Day: dt.getDate()
-            , TotalListings: totalListings
-            , totalPaidListings: totalPaidListings
-          }).toCSV().s + '\n'
-          , function(err) { if (err) throw err; console.log(dt.getFullYear() + '\t' + 
-            (dt.getMonth() + 1) + '\t' + 
-            dt.getDate() + '\t' +
-            totalListings + '\t' + 
-            totalPaidListings + '\n'); }
-        );
-        done();
-      });
-    });
-  }
-], function() {
-  $.close();
+  getListings
+], function(err, listings) {
+  saveCSV(listings[0]);
 });
 
-  
-// }, null, true, 'America/Los_Angeles');
