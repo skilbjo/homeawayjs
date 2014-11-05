@@ -1,1 +1,0 @@
-* * * * * /usr/local/bin/node /Users/skilbjo/Code/Node/homeawayjs/homeaway.js > /dev/null 2>&1
