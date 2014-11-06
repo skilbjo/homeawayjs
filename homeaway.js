@@ -15,6 +15,7 @@ var getListings = function(callback) {
       listings.day = dt.getDate();
       listings.total = $('span.totalCount').data('hitcount');
       listings.paid = $('#ols_more_filters').data('count');
+      window.close(); // frees memory
       callback(null, listings);
     }
   );
