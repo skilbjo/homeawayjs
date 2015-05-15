@@ -3,6 +3,7 @@ var
   , async     = require('async')
   , jsdom     = require('jsdom')
   , S         = require('string')
+  , db        = require('./config/database/index.js')
   , cron      = require('cron').CronJob
   , listings  = {};
 
@@ -25,11 +26,30 @@ var saveCSV = function(record) {
   fs.appendFile('results.csv', S(record).toCSV().s + '\n');
 };
 
-new cron('0 12 * * *', function() {
+var saveDB = function(record) {
+  var Listing = db.Listing;
+
+  Listing.create({
+    Year: record.year,
+    Month: record.month,
+    Day: record.day,
+    Total: record.total,
+    Paid: record.paid
+  })
+  .then(function(err, record){
+    if (err || !record) { console.log(err); } else {
+      console.log('success !');
+    }
+
+  })
+};
+
+// new cron('0 1 * * *', function() {
   async.series([
     getListings
   ], function(err, listings) {
-    saveCSV(listings[0]);
+    console.log(listings);
+    saveDB(listings[0]);
     console.log('record inserted');
   });
-}, null, true);
+// }, null, true);
