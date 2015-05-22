@@ -5,8 +5,14 @@ var
   , S         = require('string')
   , db        = require('./config/database/index.js')
   , cron      = require('cron').CronJob
-  , saveToCSV = true, saveToDB = true,
+  , saveToCSV = true, saveToDB = true, dbSync = false
   , listings  = {};
+
+if (dbSync) db.sequelize.sync({force: true}).complete(function(err){
+  if (err) { throw err[0]; } else {
+    console.log('Database refreshed!');
+  }
+});
 
 var getListings = function(callback) {
   jsdom.env('http://www.homeaway.com/search', ['http://code.jquery.com/jquery-1.5.min.js'],
