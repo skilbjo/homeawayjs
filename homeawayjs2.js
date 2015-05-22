@@ -41,7 +41,7 @@ var saveDB = function(record) {
       console.log('success !');
     }
 
-  })
+  });
 };
 
 // new cron('0 1 * * *', function() {
