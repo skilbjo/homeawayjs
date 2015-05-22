@@ -5,6 +5,7 @@ var
   , S         = require('string')
   , db        = require('./config/database/index.js')
   , cron      = require('cron').CronJob
+  , saveToCSV = true, saveToDB = true,
   , listings  = {};
 
 var getListings = function(callback) {
@@ -14,6 +15,7 @@ var getListings = function(callback) {
       listings.year   = dt.getFullYear();
       listings.month  = dt.getMonth() + 1;
       listings.day    = dt.getDate();
+      listings.hour   = dt.getHours();
       listings.total  = $('span.totalCount').data('hitcount');
       listings.paid   = $('#ols_more_filters').data('count');
       window.close(); // frees memory
@@ -26,13 +28,15 @@ var saveCSV = function(record) {
   fs.appendFile('results.csv', S(record).toCSV().s + '\n');
 };
 
+
+
 var saveDB = function(record) {
   var Listing = db.Listing;
-
   Listing.create({
     Year: record.year,
     Month: record.month,
     Day: record.day,
+    Hour: record.hour,
     Total: record.total,
     Paid: record.paid
   })
@@ -44,12 +48,13 @@ var saveDB = function(record) {
   });
 };
 
-// new cron('0 1 * * *', function() {
+new cron('0 * * * *', function() {
   async.series([
     getListings
   ], function(err, listings) {
     console.log(listings);
-    saveDB(listings[0]);
+    if (saveToCSV)  saveCSV(listings[0]); 
+    if (saveToDB)   saveDB(listings[0]);
     console.log('record inserted');
   });
-// }, null, true);
+}, null, true);
