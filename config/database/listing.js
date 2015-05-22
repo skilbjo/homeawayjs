@@ -18,6 +18,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },    
+    Hour: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     Total: {
       type: DataTypes.INTEGER,
       allowNull: false
