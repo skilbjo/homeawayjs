@@ -8,7 +8,7 @@ var
   , saveToCSV = true, saveToDB = true, dbSync = true
   , listings  = {};
 
-if (dbSync) db.sequelize.sync({force: true}).complete(function(err){
+if (dbSync) db.sequelize.sync({force: true}).then(function(err){
   if (err) { throw err[0]; } else {
     console.log('Database refreshed!');
   }
