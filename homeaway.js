@@ -5,7 +5,7 @@ var
   , S         = require('string')
   , db        = require('./config/database/index.js')
   , cron      = require('cron').CronJob
-  , saveToCSV = true, saveToDB = true, dbSync = true
+  , saveToCSV = true, saveToDB = true, dbSync = false
   , listings  = {};
 
 if (dbSync) db.sequelize.sync({force: true}).then(function(err){
