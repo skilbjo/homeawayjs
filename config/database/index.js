@@ -2,7 +2,7 @@ var fs        = require('fs')
   , path      = require('path')
   , Sequelize = require('sequelize')
   , lodash    = require('lodash')
-  , database_url = require('../config.js').database_url
+  , database_url = require('../config.js').database_url_pi
   , sequelize = new Sequelize(database_url)
   , db        = {};
  

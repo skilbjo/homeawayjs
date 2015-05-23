@@ -3,8 +3,16 @@ var
   , async     = require('async')
   , jsdom     = require('jsdom')
   , S         = require('string')
+  , db        = require('./config/database/index.js')
   , cron      = require('cron').CronJob
+  , saveToCSV = true, saveToDB = true, dbSync = true
   , listings  = {};
+
+if (dbSync) db.sequelize.sync({force: true}).complete(function(err){
+  if (err) { throw err[0]; } else {
+    console.log('Database refreshed!');
+  }
+});
 
 var getListings = function(callback) {
   jsdom.env('http://www.homeaway.com/search', ['http://code.jquery.com/jquery-1.5.min.js'],
@@ -13,6 +21,7 @@ var getListings = function(callback) {
       listings.year   = dt.getFullYear();
       listings.month  = dt.getMonth() + 1;
       listings.day    = dt.getDate();
+      listings.hour   = dt.getHours();
       listings.total  = $('span.totalCount').data('hitcount');
       listings.paid   = $('#ols_more_filters').data('count');
       window.close(); // frees memory
@@ -22,14 +31,35 @@ var getListings = function(callback) {
 };
 
 var saveCSV = function(record) {
-  fs.appendFile('results.csv', S(record).toCSV().s + '\n');
+  fs.appendFile('results/results.csv', S(record).toCSV().s + '\n');
 };
 
-new cron('0 12 * * *', function() {
+
+var saveDB = function(record) {
+  var Listing = db.Listing;
+  Listing.create({
+    Year: record.year,
+    Month: record.month,
+    Day: record.day,
+    Hour: record.hour,
+    Total: record.total,
+    Paid: record.paid
+  })
+  .then(function(err, record){
+    if (err || !record) { console.log(err); } else {
+      console.log('success !');
+    }
+
+  });
+};
+
+new cron('0 * * * *', function() {
   async.series([
     getListings
   ], function(err, listings) {
-    saveCSV(listings[0]);
+    console.log(listings);
+    if (saveToCSV)  saveCSV(listings[0]); 
+    if (saveToDB)   saveDB(listings[0]);
     console.log('record inserted');
   });
 }, null, true);
