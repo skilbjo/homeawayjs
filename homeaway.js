@@ -53,7 +53,7 @@ var saveDB = function(record) {
   });
 };
 
-new cron('0 * * * *', function() {
+new cron('0 14 * * *', function() {
   async.series([
     getListings
   ], function(err, listings) {
