@@ -1,5 +1,4 @@
 ### Homeaway.js
-a
 ## Intro
 
 Problem: need to know Homeaway's property listings data, and store that for later analysis. Homeaway does not have a global API for that type of information. However, they do provide that number on their website.
