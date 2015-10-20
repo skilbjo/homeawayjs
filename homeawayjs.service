@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup daemon
+
+
+[Service]
+Type=simple
+ExecStart=/home/skilbjo/code/node/app/homeawayjs/homeawayjs.sh
+
+[Install]
+WantedBy=multi-user.target
